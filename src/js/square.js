@@ -1,4 +1,5 @@
 /* eslint-env jquery */
+import $ from "jquery";
 
 var Data = {};
 var clickedX = -1;
@@ -106,7 +107,7 @@ function updateHTML() {
   }
 }
 export function startgame() {
-  websocket = new WebSocket("ws://localhost:8080/websocket");
+  websocket = new WebSocket("ws://localhost:8080/");
   connectWebSocket();
   //animateImg(0);
 }
