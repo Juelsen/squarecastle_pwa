@@ -46,28 +46,28 @@
                             card that is already on the field.
                             </p>
                         </v-flex>
-                        <v-layout row wrap>
-                            <v-flex xs12 class="secondSection">
-                                <h4>There are different types of cards:</h4>
-                                <p>
-                                meadow, castle and road pieces. For example, a card can also
-                                show a meadow and castle. You can for example only place castle
-                                pieces on other castle pieces.
-                                </p>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout row wrap>
-                            <v-flex xs12 class="thirdSection">
-                                <h4>How to collect points:</h4>
-                                <p>
-                                For castle pieces you get 2 points credited to your account. For
-                                roads you get 1 point and for meadows 0 points. The longer the
-                                chain of cards, the more points you get. So if you add another
-                                card to two already adjoining parts of a castle, you will get 6
-                                points in total.
-                                </p>
-                            </v-flex>
-                        </v-layout>
+                    </v-layout>
+                    <v-layout row wrap>
+                        <v-flex xs12 class="secondSection">
+                            <h4>There are different types of cards:</h4>
+                            <p>
+                            meadow, castle and road pieces. For example, a card can also
+                            show a meadow and castle. You can for example only place castle
+                            pieces on other castle pieces.
+                            </p>
+                        </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                        <v-flex xs12 class="thirdSection">
+                            <h4>How to collect points:</h4>
+                            <p>
+                            For castle pieces you get 2 points credited to your account. For
+                            roads you get 1 point and for meadows 0 points. The longer the
+                            chain of cards, the more points you get. So if you add another
+                            card to two already adjoining parts of a castle, you will get 6
+                            points in total.
+                            </p>
+                        </v-flex>
                     </v-layout>
                 </div>
             </v-flex>
