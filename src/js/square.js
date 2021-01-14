@@ -1,6 +1,5 @@
 /* eslint-env jquery */
 import $ from "jquery";
-
 var Data = {};
 var clickedX = -1;
 var clickedY = -1;
@@ -9,13 +8,27 @@ var script = document.createElement("script");
 script.src = "https://code.jquery.com/jquery-3.4.1.min.js";
 script.type = "text/javascript";
 document.getElementsByTagName("head")[0].appendChild(script);
-
+var indices = [];
 var websocket;
 
 $(document).ready(function() {
   document.body.style.cursor = "default";
+  startgame(indices);
   turned = 0;
 });
+
+function sendPlayerSettings(indices) {
+  var payload = {
+    instruction: "setPlayers",
+    x: indices[0],
+    y: indices[1]
+  };
+  console.log("indices " + indices);
+  websocket.send(JSON.stringify(payload));
+}
+export function storeIndices(i){
+  indices = i;
+}
 
 //_______________________________________________________
 /*function initializevalues(p1name,p2name,p1color,p2color){
@@ -106,12 +119,12 @@ function updateHTML() {
       '<img id="preview" class="card-preview" src="/assets/' + Data[1] + '">';
   }
 }
-export function startgame() {
-  websocket = new WebSocket("ws://localhost:8080/");
+export function startgame(indices) {
+  websocket = new WebSocket("ws://localhost:9000");
   connectWebSocket();
+  sendPlayerSettings(indices);
   //animateImg(0);
 }
-export default startgame();
 
 var lock = false;
 function animateImg() {
@@ -152,6 +165,12 @@ function connectWebSocket() {
    * Updates the game
    * @param {*} e : received event
    */
+  websocket.sendmessage = async function(msg) {
+    while (this.readyState === 0) {
+      console.log("waiting for websocket");
+    }
+    this.send(msg);
+  };
   websocket.onmessage = function(e) {
     console.log("reveived message: " + e);
     readWierdMessagefromWebsocket(e.data);

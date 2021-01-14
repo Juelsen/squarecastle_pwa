@@ -1,3 +1,6 @@
+<script type="text/javascript" src="../js/playerSettings.js"></script>
+<script type="text/javascript" src="../js/square.js"></script>
+
 <template>
   <v-container fluid flex class="background-img-game">
     <v-layout row wrap>
@@ -103,7 +106,7 @@
                 <button
                   class="toolbar-button"
                   instruction="r"
-                  onclick="calc(this);"
+                  onclick="square.calc(this);"
                 ></button>
               </div>
             </section>
@@ -120,9 +123,10 @@
     </div> -->
 </template>
 <script>
-import * as square from '../js/square.js'
+import {startgame} from "@/js/square";
+
 window.onload = function() {
-  square.startgame();
+  //startgame();
   //initializevalues(@player1name,@player2name, @player1color, @player2color)
 };
 </script>
