@@ -124,9 +124,10 @@
 </template>
 <script>
 import {startgame} from "@/js/square";
+import {indices} from "@/js/playerSettings";
 
 window.onload = function() {
-  //startgame();
+  startgame(indices);
   //initializevalues(@player1name,@player2name, @player1color, @player2color)
 };
 </script>

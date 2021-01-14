@@ -8,7 +8,7 @@ btnpressed[0] = false;
 btnpressed[1] = false;
 btnpressed[2] = false;
 btnpressed[3] = false;
-var indices = [];
+export var indices = [];
 
 var firstPlayer = false;
 var secondPlayer = false;
