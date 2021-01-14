@@ -1,10 +1,14 @@
+/* eslint-env jquery */
+
 import $ from "jquery";
+import {storeIndices} from "@/js/square";
 
 var btnpressed = [];
 btnpressed[0] = false;
 btnpressed[1] = false;
 btnpressed[2] = false;
 btnpressed[3] = false;
+export var indices = [];
 
 var firstPlayer = false;
 var secondPlayer = false;
@@ -12,51 +16,40 @@ var secondPlayer = false;
 var pressedPlayer1 = -1;
 var pressedPlayer2 = -1;
 
-
-$(document).ready(function () {
-    $('#btn1').click(function() {
-        btnpressed[0] = !btnpressed[0];
-        selectPlayer(0);
-    });
-    $('#btn2').click(function() {
-        btnpressed[1] = !btnpressed[1];
-        selectPlayer(1);
-    });
-    $('#btn3').click(function() {
-        btnpressed[2] = !btnpressed[2];
-        selectPlayer(2);
-    });
-    $('#btn4').click(function() {
-        btnpressed[3] = !btnpressed[3];
-        selectPlayer(3);
-    });
-    $('#startGame').click(function() {
-        if(btnpressed.filter(Boolean).length === 2){
-            var temp = 0;
-            var indices = [];
-            for(var i = 0; i < btnpressed.length; i++){
-                if(btnpressed[i]){
-                    indices[temp] = i;
-                    temp++;
-                }
-            }
-            console.log("indices: "+indices);
-            // var payload = {
-            //     "instruction": "setPlayers",
-            //     "x": indices[0],
-            //     "y": indices[1]
-            // };
-            // sendRequest("POST","/squarecastle/api/command", payload)
-            document.body.style.cursor="progress";
-            setTimeout(function () {
-                location = "/squarecastle";
-
-            },1000);
-        } else if(btnpressed.filter(Boolean).length === 1){
-            alert("Du hast nur einen Spieler ausgewählt!");
-        } else {
-            alert("Du hast noch keinen Spieler ausgewählt!");
+$(document).ready(function() {
+  $("#btn1").click(function() {
+    btnpressed[0] = !btnpressed[0];
+    selectPlayer(0);
+  });
+  $("#btn2").click(function() {
+    btnpressed[1] = !btnpressed[1];
+    selectPlayer(1);
+  });
+  $("#btn3").click(function() {
+    btnpressed[2] = !btnpressed[2];
+    selectPlayer(2);
+  });
+  $("#btn4").click(function() {
+    btnpressed[3] = !btnpressed[3];
+    selectPlayer(3);
+  });
+  $("#startGame").click(function() {
+    if (btnpressed.filter(Boolean).length === 2) {
+      var temp = 0;
+      for (var i = 0; i < btnpressed.length; i++) {
+        if (btnpressed[i]) {
+          indices[temp] = i;
+          temp++;
         }
+      }
+      location = "/game";
+      storeIndices(indices);
+      document.body.style.cursor = "progress";
+    } else if (btnpressed.filter(Boolean).length === 1) {
+      alert("Du hast nur einen Spieler ausgewählt!");
+    } else {
+      alert("Du hast noch keinen Spieler ausgewählt!");
+    }
   });
   //($('#selectedPlayer1').removeAllClasses("");
   //$('#selectedPlayer2').removeAllClasses("");

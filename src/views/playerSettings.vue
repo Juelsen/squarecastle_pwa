@@ -28,7 +28,7 @@
             </v-flex>
             <v-flex xs4>
                 <div class="centered-buttons">
-                    <a id="startGame" class="start-btn" href="/game"></a>
+                    <a id="startGame" class="start-btn"></a>
                     <a class="home-btn" href="/"></a>
                 </div>
             </v-flex>
