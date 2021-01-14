@@ -15,19 +15,19 @@ var pressedPlayer2 = -1;
 
 
 $(document).ready(function () {
-    $('#btnP1').click(function() {
+    $('#btn1').click(function() {
         btnpressed[0] = !btnpressed[0];
         selectPlayer(0);
     });
-    $('#btnP2').click(function() {
+    $('#btn2').click(function() {
         btnpressed[1] = !btnpressed[1];
         selectPlayer(1);
     });
-    $('#btnP3').click(function() {
+    $('#btn3').click(function() {
         btnpressed[2] = !btnpressed[2];
         selectPlayer(2);
     });
-    $('#btnP4').click(function() {
+    $('#btn4').click(function() {
         btnpressed[3] = !btnpressed[3];
         selectPlayer(3);
     });

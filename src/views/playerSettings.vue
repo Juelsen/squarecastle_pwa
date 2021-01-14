@@ -38,8 +38,7 @@
 </template>
 
 <script>
-    import $ from "jquery";
-    import * as playerJS from '../js/playerSettings.js'
+    import '../js/playerSettings.js';
     import player from '@/components/playerSettings/player';
     export default {
         component: {
@@ -51,65 +50,8 @@
             }
         }
     }
-
-
-$(document).ready(function () {
-    $('#btnP1').click(function() {
-        playerJS.btnpressed[0] = !playerJS.btnpressed[0];
-        playerJS.selectPlayer(0);
-    });
-    $('#btnP2').click(function() {
-        playerJS.btnpressed[1] = !playerJS.btnpressed[1];
-        playerJS.selectPlayer(1);
-    });
-    $('#btnP3').click(function() {
-        playerJS.btnpressed[2] = !playerJS.btnpressed[2];
-        playerJS.selectPlayer(2);
-    });
-    $('#btnP4').click(function() {
-        playerJS.btnpressed[3] = !playerJS.btnpressed[3];
-        playerJS.selectPlayer(3);
-    });
-    $('#startGame').click(function() {
-        if(playerJS.btnpressed.filter(Boolean).length === 2){
-            var temp = 0;
-            var indices = [];
-            for(var i = 0; i < playerJS.btnpressed.length; i++){
-                if(playerJS.btnpressed[i]){
-                    indices[temp] = i;
-                    temp++;
-                }
-            }
-            console.log("indices: "+indices);
-            // var payload = {
-            //     "instruction": "setPlayers",
-            //     "x": indices[0],
-            //     "y": indices[1]
-            // };
-            // sendRequest("POST","/squarecastle/api/command", payload)
-            document.body.style.cursor="progress";
-            setTimeout(function () {
-                location = "/squarecastle";
-
-            },1000);
-        } else if(playerJS.btnpressed.filter(Boolean).length === 1){
-            alert("Du hast nur einen Spieler ausgewählt!");
-        } else {
-            alert("Du hast noch keinen Spieler ausgewählt!");
-        }
-    });
-    //($('#selectedPlayer1').removeAllClasses("");
-    //$('#selectedPlayer2').removeAllClasses("");
-});
-
 </script>
 
 <style lang="less" scoped>
-
-@import "~@/less/prototypes.less";
-@import "~@/less/game.less";
-@import "~@/less/playerSettings.less";
-@import "~@/less/rules.less";
-@import "~@/less/startScreen.less";
-
+@import "~@/less/main.less";
 </style>

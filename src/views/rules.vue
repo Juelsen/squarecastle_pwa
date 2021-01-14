@@ -76,9 +76,5 @@
 </template>
 
 <style lang="less" scoped>
-@import "~@/less/prototypes.less";
-@import "~@/less/game.less";
-@import "~@/less/playerSettings.less";
-@import "~@/less/rules.less";
-@import "~@/less/startScreen.less";
+@import "~@/less/main.less";
 </style>
