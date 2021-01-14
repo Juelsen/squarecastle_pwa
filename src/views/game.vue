@@ -1,5 +1,8 @@
 <template>
-    <v-container fluid flex class="background-img-game">
+  <v-container fluid flex class="background-img-game">
+    <v-layout row wrap>
+      <v-flex xs2 xl3></v-flex>
+      <v-flex xs10 xl9>
         <v-layout row wrap>
             <v-flex xs2 lg3></v-flex>
             <v-flex xs10 lg9>
@@ -23,6 +26,10 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12 xl3>
         <v-layout row wrap>
             <v-flex xs12 lg2>
                 <v-layout row wrap>
@@ -364,34 +371,56 @@
                 </div>
             </v-flex>
         </v-layout>
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12>
         <v-layout row wrap>
-            <v-flex xs12>
-                <v-layout row wrap>
-                    <v-flex sm1 md2 lg3 xl4></v-flex>
-                    <v-flex xs12 sm10 md8 lg6 xl4>
-                        <section class="centerToolbar">
-                            <div id="l" class="left-background">
-                                <button class="toolbar-button" instruction="l" onclick="calc(this);"></button>
-                            </div>
-                            <div id="wait" class="pause-background">
-                                <button class="toolbar-button" instruction="wait" onclick="calc(this);"></button>
-                            </div>
-                            <div id="r" class="right-background">
-                                <button class="toolbar-button" instruction="r" onclick="calc(this);"></button>
-                            </div>
-                        </section>
-                    </v-flex>
-                    <v-flex sm1 md2 lg3 xl4></v-flex>
-                </v-layout>
-            </v-flex>
+          <v-flex sm1 md2 lg3 xl4></v-flex>
+          <v-flex xs12 sm10 md8 lg6 xl4>
+            <section class="centerToolbar">
+              <div id="l" class="left-background">
+                <button
+                  class="toolbar-button"
+                  instruction="l"
+                  onclick="import * as square from '../js/square.js'
+                           square.calc(this);"
+                ></button>
+              </div>
+              <div id="wait" class="pause-background">
+                <button
+                  class="toolbar-button"
+                  instruction="wait"
+                  onclick="calc(this);"
+                ></button>
+              </div>
+              <div id="r" class="right-background">
+                <button
+                  class="toolbar-button"
+                  instruction="r"
+                  onclick="calc(this);"
+                ></button>
+              </div>
+            </section>
+          </v-flex>
+          <v-flex sm1 md2 lg3 xl4></v-flex>
         </v-layout>
-    </v-container>
-    <!-- <div id="animateImg" class="animationgame transform" style="color: white; font-width: 20px; height: 120px; width: 200px;border-bottom-right-radius: 30px; border-top-right-radius: 30px;  right:100%; top:7%; padding: 5px 0 0 30px">
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <!-- <div id="animateImg" class="animationgame transform" style="color: white; font-width: 20px; height: 120px; width: 200px;border-bottom-right-radius: 30px; border-top-right-radius: 30px;  right:100%; top:7%; padding: 5px 0 0 30px">
         @*<img src="@routes.Assets.versioned("images/spieler1.png")" width="1000">*@
         <div class="row" id="punkteAnzeige" style ="font-size: 40px">0</div>
         <div class="row" style ="font-size: 30px">PUNKTE</div>
     </div> -->
 </template>
+<script>
+import * as square from '../js/square.js'
+window.onload = function() {
+  square.startgame();
+  //initializevalues(@player1name,@player2name, @player1color, @player2color)
+};
+</script>
 
 <style lang="less" scoped>
 @import "~@/less/main.less";
