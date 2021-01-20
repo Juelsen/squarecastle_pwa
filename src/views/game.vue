@@ -471,7 +471,7 @@ export default {
       console.log("turn picture " + this.turned);
     },
     turnleft: function() {
-      if (turned === undefined) this.turned = 0;
+      if (this.turned === undefined) this.turned = 0;
       this.turned -= 90;
       document.getElementById("preview").style.transform =
         "rotate(" + this.turned + "deg)";
@@ -521,6 +521,7 @@ export default {
     },
     startgame: function(indices) {
       this.turned = 0;
+      console.log("starting game . . . connecting websocket")
       this.connectWebSocket();
       this.sendPlayerSettings(indices);
       //animateImg(0);
