@@ -1,7 +1,6 @@
 /* eslint-env jquery */
 
 import $ from "jquery";
-import {storeIndices} from "@/js/square";
 
 var btnpressed = [];
 btnpressed[0] = false;
@@ -43,7 +42,6 @@ $(document).ready(function() {
         }
       }
       location = "/game";
-      storeIndices(indices);
       document.body.style.cursor = "progress";
     } else if (btnpressed.filter(Boolean).length === 1) {
       alert("Du hast nur einen Spieler ausgewählt!");

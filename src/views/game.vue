@@ -1,6 +1,4 @@
-<script type="text/javascript" src="../js/playerSettings.js"></script>
-<script type="text/javascript" src="../js/square.js"></script>
-
+<script src="../js/playerSettings.js"></script>
 <template>
   <v-container fluid flex class="background-img-game">
     <v-layout row wrap>
@@ -418,12 +416,188 @@
     </div> -->
 </template>
 <script>
-import {startgame} from "@/js/square";
-import {indices} from "@/js/playerSettings";
+import { indices } from "@/js/playerSettings";
+import $ from "jquery";
 
-window.onload = function() {
-  startgame(indices);
-  //initializevalues(@player1name,@player2name, @player1color, @player2color)
+export default {
+  name: "Game",
+  data: () => ({
+    Data: {},
+    clickedX: -1,
+    clickedY: -1,
+    instruction: "",
+    websocket: null,
+    turned: 0,
+    lock: false
+  }),
+  mounted() {
+    var script = document.createElement("script");
+    script.src = "https://code.jquery.com/jquery-3.4.1.min.js";
+    script.type = "text/javascript";
+    document.getElementsByTagName("head")[0].appendChild(script);
+    this.startgame(indices);
+    //initializevalues(@player1name,@player2name, @player1color, @player2color)
+  },
+  methods: {
+    sendPlayerSettings: function(indices) {
+      var payload = {
+        instruction: "setPlayers",
+        x: indices[0],
+        y: indices[1]
+      };
+      console.log("indices " + indices);
+      this.websocket.send(JSON.stringify(payload));
+    },
+    calc: function(source) {
+      if (this.lock) return;
+      var payload = {
+        instruction: source.getAttribute("instruction"),
+        x: source.getAttribute("x"),
+        y: source.getAttribute("y")
+      };
+      if (source.getAttribute("instruction") === "r") this.turnright();
+      if (source.getAttribute("instruction") === "l") this.turnleft();
+      this.clickedX = source.getAttribute("x");
+      this.clickedY = source.getAttribute("y");
+      this.instruction = source.getAttribute("instruction");
+      this.websocket.send(JSON.stringify(payload));
+      //sendRequest("POST","/squarecastle/api/command", payload)
+    },
+    turnright: function() {
+      if (this.turned === undefined) this.turned = 0;
+      this.turned += 90;
+      document.getElementById("preview").style.transform =
+        "rotate(" + this.turned + "deg)";
+      console.log("turn picture " + this.turned);
+    },
+    turnleft: function() {
+      if (turned === undefined) this.turned = 0;
+      this.turned -= 90;
+      document.getElementById("preview").style.transform =
+        "rotate(" + this.turned + "deg)";
+      console.log("turn picture " + this.turned);
+    },
+    updateHTML: function() {
+      console.log("State : " + this.Data[0]);
+      if (this.Data[0] === "2") {
+        if (this.turned === undefined) this.turned = 0;
+        switch (this.instruction) {
+          case "r":
+            this.turnright();
+            break;
+          case "l":
+            this.turnleft();
+            break;
+          default:
+            console.log("Instruction not readable " + this.instruction);
+        }
+      } else if (this.Data[0] === "1") {
+        this.turned = 0;
+        //punktediv vorbereiten
+
+        document.getElementById("punkteAnzeige").innerText = this.Data[6];
+        document.getElementById("p1Points").innerText = this.Data[5] + " Pts";
+        document.getElementById("p2Points").innerText = this.Data[4] + " Pts";
+        document.getElementById("animateImg").classList.remove("red");
+        document.getElementById("animateImg").classList.remove("green");
+        document.getElementById("animateImg").classList.remove("blue");
+        document.getElementById("animateImg").classList.remove("purple");
+
+        document.getElementById("animateImg").classList.add(this.Data[7]);
+
+        this.animateImg(0);
+        document.getElementById("newcard").innerHTML =
+          '<img id="preview" class="card-preview" src="/assets/' +
+          this.Data[1] +
+          '">';
+        document.getElementById(this.clickedX + " " + this.clickedY).innerHTML =
+          '<img src="/assets/' + this.Data[2] + '">';
+      } else if (this.Data[0] === "3") {
+        document.getElementById("newcard").innerHTML =
+          '<img id="preview" class="card-preview" src="/assets/' +
+          this.Data[1] +
+          '">';
+      }
+    },
+    startgame: function(indices) {
+      this.turned = 0;
+      this.connectWebSocket();
+      this.sendPlayerSettings(indices);
+      //animateImg(0);
+    },
+    animateImg: function() {
+      this.lock = true;
+      document.getElementById("animateImg").style.transition = "right 0.5s";
+      document.getElementById("animateImg").style.transitionTimingFunction =
+        "ease-out";
+      document.getElementById("animateImg").style.right = "calc(100% - 200px)";
+      setTimeout(this.endanimation, 1000);
+    },
+    endanimation: function() {
+      this.lock = false;
+      setTimeout(this.easeout, 1500);
+    },
+    easeout: function() {
+      document.getElementById("animateImg").style.transition = "right 0.75s";
+      document.getElementById("animateImg").style.right = "100%";
+    },
+    connectWebSocket: function() {
+      this.websocket = new WebSocket("ws://localhost:9000/websocket");
+      this.websocket.setTimeout;
+      let vm = this;
+
+      console.log("Connecting to Websocket");
+
+      this.websocket.onopen = function() {
+        console.log("Connected");
+      };
+
+      this.websocket.onclose = function() {
+        console.log("Connection Closed!");
+        //$(".game").addClass("blurred");
+      };
+
+      this.websocket.onerror = function(error) {
+        console.log("Error Occured: " + error);
+      };
+
+      this.websocket.onmessage = function(e) {
+        console.log("reveived message: " + e);
+        vm.readWierdMessagefromWebsocket(e.data);
+      };
+    },
+    readWierdMessagefromWebsocket: function(data) {
+      var json = JSON.parse(data);
+      this.Data[0] = json[0]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //state
+      this.Data[1] = json[1]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //link neue karte
+      this.Data[2] = json[2]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //link gesetzte karte
+      this.Data[3] = json[3]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //spieler der dran ist
+      this.Data[4] = json[4]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //punkte p1
+      this.Data[5] = json[5]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //punkte p2
+      this.Data[6] = json[6]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //neue punkte
+      this.Data[7] = json[7]
+        .replaceAll('"', "")
+        .replaceAll(String.fromCharCode(92), ""); //neue punkte
+
+      console.log(this.Data);
+      console.log(this.instruction);
+      this.updateHTML();
+    }
+  }
 };
 </script>
 
