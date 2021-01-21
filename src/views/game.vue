@@ -1022,13 +1022,14 @@ export default {
     },
     calc: function(string) {
       var instruction = "";
-      var x,y;
+      var x, y;
       if (this.lock) return;
       if(string === "r" || string === "wait" || string === "r")
         instruction = string;
       else {
         instruction = "0";
-        x = string.split(" ")[0];        y = string.split(" ")[1];
+        x = string.split(" ")[0];
+        y = string.split(" ")[1];
       }
       var payload = {
         instruction: instruction,
